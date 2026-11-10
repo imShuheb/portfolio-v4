@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
-import { site, experience, toolbox } from "../data/site";
+import { site, experience } from "../data/site";
+import Toolbox from "../components/Toolbox.astro";
 ---
 
 <Base title="About" description="About Mohammed Shuheb, a full stack developer in Bengaluru, India.">
@@ -56,16 +57,7 @@ import { site, experience, toolbox } from "../data/site";
 
   <section class="wrap section dossier">
     <p class="label"><b>03</b> — Toolbox</p>
-    <dl class="defs">
-      {
-        toolbox.map((t) => (
-          <>
-            <dt>{t.area}</dt>
-            <dd>{t.items}</dd>
-          </>
-        ))
-      }
-    </dl>
+    <Toolbox />
   </section>
 
   <section class="wrap section dossier">
@@ -97,5 +89,15 @@ import { site, experience, toolbox } from "../data/site";
   }
   .prose a {
     text-decoration: underline;
+  }
+  @media (max-width: 960px) {
+    .head {
+      padding-block: var(--s7);
+    }
+  }
+  @media (max-width: 640px) {
+    .head {
+      padding-block: var(--s6) var(--s7);
+    }
   }
 </style>

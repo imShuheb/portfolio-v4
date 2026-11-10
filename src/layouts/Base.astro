@@ -44,14 +44,23 @@ const nav = [
         } catch (e) {}
         var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
         document.documentElement.dataset.theme = dark ? "dark" : "light";
+        document.documentElement.classList.add("js");
       })();
     </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <header class="wrap site-header">
+    <header class="wrap site-header" id="site-header">
       <a class="brand" href="/">{site.name}</a>
-      <nav aria-label="Main">
+      <div class="tools">
+        <button class="theme" type="button" id="theme-toggle" aria-label="Switch colour theme">
+          <span aria-hidden="true">◐</span>
+        </button>
+        <button class="menu" type="button" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">
+          Menu
+        </button>
+      </div>
+      <nav aria-label="Main" id="site-nav">
         <ul>
           {
             nav.map((item) => (
@@ -62,11 +71,6 @@ const nav = [
               </li>
             ))
           }
-          <li>
-            <button class="theme" type="button" id="theme-toggle" aria-label="Switch colour theme">
-              <span aria-hidden="true">◐</span>
-            </button>
-          </li>
         </ul>
       </nav>
     </header>
@@ -89,6 +93,26 @@ const nav = [
     </footer>
 
     <script is:inline>
+      (function () {
+        var header = document.getElementById("site-header");
+        var button = document.getElementById("menu-toggle");
+        function setOpen(open) {
+          header.classList.toggle("open", open);
+          button.setAttribute("aria-expanded", open ? "true" : "false");
+          button.textContent = open ? "Close" : "Menu";
+        }
+        button.addEventListener("click", function () {
+          setOpen(!header.classList.contains("open"));
+        });
+        header.querySelectorAll("nav a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            setOpen(false);
+          });
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") setOpen(false);
+        });
+      })();
       document.getElementById("theme-toggle").addEventListener("click", function () {
         var root = document.documentElement;
         var next = root.dataset.theme === "dark" ? "light" : "dark";
@@ -116,13 +140,15 @@ const nav = [
     left: 8px;
   }
   .site-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "brand nav tools";
     align-items: center;
-    justify-content: space-between;
     gap: var(--s5);
     padding-block: var(--s5);
   }
   .brand {
+    grid-area: brand;
     color: var(--ink);
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -130,6 +156,10 @@ const nav = [
   .brand:hover {
     color: var(--ink);
     text-decoration: none;
+  }
+  nav {
+    grid-area: nav;
+    justify-self: end;
   }
   nav ul {
     display: flex;
@@ -146,23 +176,86 @@ const nav = [
     color: var(--ink);
     text-decoration: none;
   }
-  .theme {
-    width: 36px;
+  .tools {
+    grid-area: tools;
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+  }
+  .theme,
+  .menu {
     height: 36px;
-    display: grid;
-    place-items: center;
     border: 1px solid var(--line);
-    border-radius: 50%;
     background: transparent;
     color: var(--ink);
-    font-size: 1rem;
-    line-height: 1;
     cursor: pointer;
     transition: background 150ms;
   }
-  .theme:hover {
+  .theme {
+    width: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .menu {
+    display: none;
+    padding: 0 var(--s4);
+    border-radius: 18px;
+    font: 500 0.875rem/1 var(--sans);
+  }
+  .theme:hover,
+  .menu:hover {
     background: var(--tint);
   }
+
+  /* Phone: name and buttons on one line; links open in a panel below. */
+  @media (max-width: 640px) {
+    .site-header {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "brand tools"
+        "nav nav";
+      row-gap: 0;
+      padding-block: var(--s4);
+    }
+    :global(.js) .menu {
+      display: inline-flex;
+      align-items: center;
+    }
+    nav {
+      justify-self: stretch;
+    }
+    nav ul {
+      flex-wrap: wrap;
+      gap: var(--s2) var(--s4);
+      padding-top: var(--s3);
+    }
+    :global(.js) nav {
+      display: none;
+    }
+    :global(.js) .open nav {
+      display: block;
+    }
+    :global(.js) nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      margin-top: var(--s3);
+      padding-top: 0;
+      border-top: 1px solid var(--line);
+    }
+    :global(.js) nav li {
+      border-bottom: 1px solid var(--line);
+    }
+    :global(.js) nav a {
+      display: block;
+      padding-block: var(--s4);
+      font-size: 1.0625rem;
+    }
+  }
+
   .site-footer {
     display: flex;
     flex-wrap: wrap;
@@ -187,16 +280,14 @@ const nav = [
   .prev a {
     margin-left: var(--s2);
   }
-  @media (max-width: 560px) {
-    .site-header {
-      flex-wrap: wrap;
-      row-gap: var(--s2);
+  @media (max-width: 640px) {
+    .site-footer {
+      flex-direction: column;
+      gap: var(--s3);
+      padding-block: var(--s6);
     }
-    nav ul {
-      gap: var(--s4);
-    }
-    nav a {
-      font-size: 0.875rem;
+    .site-footer ul {
+      gap: var(--s2) var(--s4);
     }
   }
 </style>

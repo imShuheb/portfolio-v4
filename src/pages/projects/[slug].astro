@@ -204,9 +204,59 @@ const tall = p.images?.some((i) => i.tall);
     color: var(--accent);
     text-decoration: none;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 960px) {
+    .head {
+      padding-block: var(--s7) var(--s6);
+    }
+    .cover {
+      padding-bottom: var(--s7);
+    }
+  }
+  @media (max-width: 640px) {
+    .head {
+      padding-block: var(--s6) var(--s5);
+    }
+    .head .actions {
+      margin-top: var(--s5);
+    }
+    /* Main action on its own row; secondary links pair up below it. */
+    .head .actions .btn-primary {
+      flex-basis: 100%;
+    }
+    .head .actions .btn:not(.btn-primary) {
+      flex: 1 1 40%;
+      padding-inline: var(--s3);
+      font-size: 0.875rem;
+    }
+    .statement {
+      font-size: 1.125rem;
+    }
+    .diagram {
+      padding: var(--s5);
+    }
+    .diagram ol {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--s2);
+    }
+    .diagram li {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--s2);
+    }
+    .diagram li::before {
+      content: "↓";
+      padding-left: var(--s4);
+    }
+    .gallery {
+      gap: var(--s4);
+    }
     .gallery.tall {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s3);
+    }
+    .next {
+      padding-block: var(--s7);
     }
   }
 </style>

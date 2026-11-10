@@ -25,10 +25,10 @@ const first = p.images?.[0];
   ) : (
     <div class="thumb flow" aria-hidden="true">
       {(p.flow ?? [p.title]).map((step, i) => (
-        <>
+        <b class="step">
           {i > 0 && <i>→</i>}
           <span>{step}</span>
-        </>
+        </b>
       ))}
     </div>
   )
@@ -60,6 +60,14 @@ const first = p.images?.[0];
     gap: 6px 4px;
     padding: 14px;
     background: var(--tint);
+  }
+  /* Arrow and box stay together, so a line never ends on an arrow. */
+  .flow .step {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: inherit;
+    white-space: nowrap;
   }
   .flow span {
     font-family: var(--mono);

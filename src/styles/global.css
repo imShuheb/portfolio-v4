@@ -413,11 +413,13 @@ td.mono {
   padding-top: 0.3rem;
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 800px) {
-  body {
-    font-size: 16px;
-  }
+/* ---------- Responsive ----------
+   Three layouts, and every component follows them:
+   desktop  > 960px   two-column "dossier" sections, project rows with thumbnail on the right
+   tablet   641–960px sections stack (label above content); rows keep a smaller thumbnail
+   phone    ≤ 640px   single column; thumbnails move above the text; buttons fill the row
+*/
+@media (max-width: 960px) {
   .section {
     padding-block: var(--s8);
   }
@@ -429,13 +431,47 @@ td.mono {
     position: static;
   }
   .row {
-    grid-template-columns: 2rem minmax(0, 1fr);
-  }
-  .row .thumb {
-    grid-column: 2;
+    grid-template-columns: 2.5rem minmax(0, 1fr) 220px;
+    gap: var(--s4);
   }
   .row h3 {
     font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+  .wrap {
+    padding-inline: 20px;
+  }
+  .section {
+    padding-block: calc(var(--s7) + var(--s2));
+  }
+  .lead {
+    font-size: 1.125rem;
+  }
+  .actions {
+    gap: var(--s3);
+  }
+  .actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s4);
+    padding-block: var(--s5);
+  }
+  .row .num {
+    display: none;
+  }
+  .row .thumb {
+    order: -1;
+  }
+  .row h3 {
+    font-size: 1.625rem;
   }
   .defs {
     grid-template-columns: 1fr;

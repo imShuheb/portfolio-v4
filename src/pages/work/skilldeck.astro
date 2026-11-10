@@ -230,14 +230,30 @@ const contributions = [
     padding-block: var(--s7);
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 960px) {
+    .head {
+      padding-block: var(--s7);
+    }
+  }
+  @media (max-width: 640px) {
+    .head {
+      padding-block: var(--s6) var(--s7);
+    }
     .meta,
     .areas {
       grid-template-columns: 1fr;
     }
+    .meta {
+      gap: var(--s4);
+      margin-top: var(--s6);
+    }
+    .areas {
+      gap: var(--s7);
+    }
     .diagram > li {
       grid-template-columns: 1fr;
       gap: var(--s3);
+      padding: var(--s4);
     }
   }
 </style>

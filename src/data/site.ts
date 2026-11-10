@@ -39,25 +39,60 @@ export const experience = [
   },
 ];
 
+// Toolbox shown as icon tiles. `icon` is a Simple Icons slug (simpleicons.org);
+// leave it out to show a text badge instead.
 export const toolbox = [
   {
     area: "Frontend",
-    items: "React, Next.js, TypeScript, JavaScript, Redux Toolkit, React Query, Tailwind CSS",
+    items: [
+      { name: "React", icon: "react" },
+      { name: "Next.js", icon: "nextdotjs" },
+      { name: "TypeScript", icon: "typescript" },
+      { name: "JavaScript", icon: "javascript" },
+      { name: "Redux Toolkit", icon: "redux" },
+      { name: "React Query", icon: "reactquery" },
+      { name: "Tailwind CSS", icon: "tailwindcss" },
+    ],
   },
   {
     area: "Backend",
-    items: "Node.js, NestJS, Express, Fastify, Python, FastAPI, REST APIs, JWT auth, RBAC",
-  },
-  {
-    area: "AI & LLMs",
-    items: "LLM API integration (Gemini, Mistral, Groq), prompt design, structured output, provider fallback and rate limiting",
+    items: [
+      { name: "Node.js", icon: "nodedotjs" },
+      { name: "NestJS", icon: "nestjs" },
+      { name: "Express", icon: "express" },
+      { name: "Fastify", icon: "fastify" },
+      { name: "Python", icon: "python" },
+      { name: "FastAPI", icon: "fastapi" },
+      { name: "JWT", icon: "jsonwebtokens" },
+    ],
   },
   {
     area: "Data",
-    items: "PostgreSQL, MongoDB, Redis, RabbitMQ",
+    items: [
+      { name: "PostgreSQL", icon: "postgresql" },
+      { name: "MongoDB", icon: "mongodb" },
+      { name: "Redis", icon: "redis" },
+      { name: "RabbitMQ", icon: "rabbitmq" },
+    ],
   },
   {
     area: "Cloud & DevOps",
-    items: "AWS, Docker, Kubernetes, Helm, GitHub Actions, Jenkins, OpenTelemetry",
+    items: [
+      { name: "AWS" },
+      { name: "Docker", icon: "docker" },
+      { name: "Kubernetes", icon: "kubernetes" },
+      { name: "Helm", icon: "helm" },
+      { name: "OpenTelemetry", icon: "opentelemetry" },
+      { name: "Github Actions", icon: "githubactions" },
+    ],
+  },
+  {
+    area: "AI & LLMs",
+    items: [
+      { name: "Gemini", icon: "googlegemini" },
+      { name: "OpenAI", icon: "openai" },
+      { name: "Mistral", icon: "mistralai" },
+      { name: "Groq" },
+    ],
   },
 ];

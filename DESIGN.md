@@ -2,7 +2,7 @@
 
 Direction: **engineering dossier**. The site should read like a well-set technical
 document: left-aligned, typographic, calm. The work is the content; the design
-stays out of its way. No themes, no fake telemetry, no logo walls, no skill bars.
+stays out of its way. No themes, no fake telemetry, no skill bars.
 
 Tokens live in `src/styles/global.css` as CSS variables. Pages use the names,
 never raw values.
@@ -44,6 +44,16 @@ about 68 characters (`--measure: 40rem`).
 Sections use a two-column "dossier" grid: a narrow label column (number + name
 in mono) and a wide content column. It collapses to one column under 800px.
 
+## Breakpoints
+
+Three layouts. Every page and component follows them; don't add others.
+
+| Layout | Width | What changes |
+|---|---|---|
+| Desktop | > 960px | Two-column sections (label left, content right); project rows with the thumbnail on the right; hero text beside the "at a glance" panel |
+| Tablet | 641–960px | Sections stack with the label above; project rows keep a 220px thumbnail; hero panel becomes a 2 × 2 grid |
+| Phone | ≤ 640px | Single column; nav moves behind a Menu button; thumbnails sit above the text; buttons fill the row; flow diagrams run top to bottom; 20px side padding |
+
 ## Shape and depth
 
 Radius: 4px (chips, buttons) and 10px (image frames, cards). No shadows; depth
@@ -65,8 +75,12 @@ comes from hairlines and the surface colour.
 ## Imagery and icons
 
 Real product screenshots only, shown in a 10px-radius hairline frame. No stock
-art, no illustrations, no emoji. Icons are limited to a text arrow (→ ↗) and the
-theme toggle glyph.
+art, no illustrations, no emoji. Interface icons are limited to a text arrow (→ ↗)
+and the theme toggle glyph.
+
+Toolbox tiles use brand marks from Simple Icons, inlined as SVG. They are shown
+in `--muted` and take the brand colour on hover, unless that colour is too dark
+or too light to read, in which case they turn `--ink`.
 
 ## Motion
 

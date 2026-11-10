@@ -1,7 +1,8 @@
 ---
 import Thumb from "../components/Thumb.astro";
 import Base from "../layouts/Base.astro";
-import { site, experience, toolbox } from "../data/site";
+import { site, experience } from "../data/site";
+import Toolbox from "../components/Toolbox.astro";
 import { projects } from "../data/projects";
 
 const modules = ["CMS", "CRM", "LMS", "Billing", "Payments", "Ticketing", "Notifications", "Scheduling"];
@@ -86,16 +87,7 @@ const modules = ["CMS", "CRM", "LMS", "Billing", "Payments", "Ticketing", "Notif
     <p class="label"><b>03</b> — Toolbox</p>
     <div class="stack">
       <h2>What I work with</h2>
-      <dl class="defs">
-        {
-          toolbox.map((t) => (
-            <>
-              <dt>{t.area}</dt>
-              <dd>{t.items}</dd>
-            </>
-          ))
-        }
-      </dl>
+      <Toolbox />
     </div>
   </section>
 
@@ -188,11 +180,41 @@ const modules = ["CMS", "CRM", "LMS", "Billing", "Payments", "Ticketing", "Notif
     margin-top: var(--s6);
   }
 
-  @media (max-width: 900px) {
+  /* Tablet: hero stacks; the "at a glance" panel becomes a 2 x 2 grid. */
+  @media (max-width: 960px) {
     .hero {
       grid-template-columns: 1fr;
       gap: var(--s7);
       padding-block: var(--s7) var(--s8);
+    }
+    .brief {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s6);
+    }
+  }
+  /* Phone: one column, tighter spacing. */
+  @media (max-width: 640px) {
+    .hero {
+      gap: var(--s6);
+      padding-block: var(--s6) var(--s7);
+    }
+    .hero .lead {
+      margin-top: var(--s5);
+    }
+    .hero .actions {
+      margin-top: var(--s6);
+    }
+    .hero .actions .quiet {
+      flex-basis: 100%;
+      text-align: center;
+      padding-block: var(--s2);
+    }
+    .brief {
+      grid-template-columns: 1fr;
+    }
+    .contact .big {
+      margin-top: var(--s4);
     }
   }
 </style>
