@@ -1,0 +1,212 @@
+---
+import Base from "../../layouts/Base.astro";
+import { projects, type Project } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+
+const { project: p, next } = Astro.props;
+const tall = p.images?.some((i) => i.tall);
+---
+
+<Base title={p.title} description={p.tagline}>
+  <section class="wrap head">
+    <p class="label"><a href="/projects">Projects</a> / {p.kind} · {p.year}</p>
+    <h1>{p.title}</h1>
+    <p class="lead">{p.tagline}</p>
+    {
+      p.links && (
+        <div class="actions">
+          {p.links.map((l, i) => (
+            <a class:list={["btn", { "btn-primary": i === 0 }]} href={l.href}>
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  {
+    p.images?.[0] && !tall && (
+      <section class="wrap cover">
+        <figure class="frame">
+          <img src={p.images[0].src} alt={p.images[0].alt} />
+        </figure>
+      </section>
+    )
+  }
+
+  {
+    p.flow && !p.images?.[0] && (
+      <section class="wrap cover">
+        <figure class="frame diagram">
+          <figcaption class="label">How data moves through it</figcaption>
+          <ol>
+            {p.flow.map((step) => (
+              <li>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </figure>
+      </section>
+    )
+  }
+
+  <section class="wrap section dossier">
+    <p class="label"><b>01</b> — The problem</p>
+    <p class="prose statement">{p.problem}</p>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>02</b> — The solution</p>
+    <div class="stack">
+      <p class="prose">{p.solution}</p>
+      <ul class="chips" aria-label="Technologies">
+        {p.stack.map((s) => <li class="chip">{s}</li>)}
+      </ul>
+      {p.note && <p class="small muted">{p.note}</p>}
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>03</b> — What it does</p>
+    <ul class="ticks">
+      {p.highlights.map((h) => <li>{h}</li>)}
+    </ul>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>04</b> — How it's built</p>
+    <dl class="defs">
+      {
+        p.built.map((b) => (
+          <>
+            <dt>{b.part}</dt>
+            <dd>{b.detail}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+
+  {
+    p.images && p.images.length > (tall ? 0 : 1) && (
+      <section class="wrap section dossier">
+        <p class="label">
+          <b>05</b> — Screens
+        </p>
+        <div class:list={["gallery", { tall }]}>
+          {(tall ? p.images : p.images.slice(1)).map((img) => (
+            <figure class="frame">
+              <img src={img.src} alt={img.alt} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="wrap section next">
+    <p class="label">Next project</p>
+    <a class="next-link display" href={`/projects/${next.slug}`}>{next.title} →</a>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: var(--s8) var(--s7);
+  }
+  .head .label a {
+    color: inherit;
+  }
+  .head h1 {
+    margin-top: var(--s5);
+  }
+  .head .lead {
+    margin-top: var(--s5);
+  }
+  .head .actions {
+    margin-top: var(--s6);
+  }
+  .statement {
+    font-size: 1.25rem;
+    line-height: 1.55;
+  }
+  .cover {
+    padding-bottom: var(--s8);
+  }
+  .cover img {
+    width: 100%;
+  }
+  .diagram {
+    padding: var(--s6);
+  }
+  .diagram ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s3);
+    margin-top: var(--s5);
+  }
+  .diagram li {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    font-family: var(--mono);
+    font-size: 0.875rem;
+  }
+  .diagram li::before {
+    content: "→";
+    color: var(--accent);
+  }
+  .diagram li:first-child::before {
+    content: none;
+  }
+  .diagram li span {
+    padding: var(--s3) var(--s4);
+    border: 1px solid var(--line);
+    border-radius: var(--r1);
+    background: var(--bg);
+  }
+  .gallery {
+    display: grid;
+    gap: var(--s5);
+  }
+  .gallery img {
+    width: 100%;
+  }
+  .gallery.tall {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s4);
+  }
+  .next {
+    padding-block: var(--s8);
+  }
+  .next-link {
+    display: inline-block;
+    margin-top: var(--s3);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .next-link:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  @media (max-width: 800px) {
+    .gallery.tall {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

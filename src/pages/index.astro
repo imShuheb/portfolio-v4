@@ -1,0 +1,198 @@
+---
+import Thumb from "../components/Thumb.astro";
+import Base from "../layouts/Base.astro";
+import { site, experience, toolbox } from "../data/site";
+import { projects } from "../data/projects";
+
+const modules = ["CMS", "CRM", "LMS", "Billing", "Payments", "Ticketing", "Notifications", "Scheduling"];
+---
+
+<Base>
+  <section class="wrap hero">
+    <div class="hero-main">
+      <p class="label">{site.role} · {site.location}</p>
+      <h1>I build SaaS products end to end: interface, services and deployment.</h1>
+      <p class="lead">
+        I'm Mohammed Shuheb. At Kandra Digitals I work on SkillDeck, a multi-tenant platform, where I build the React
+        and Next.js applications, the Node.js services behind them and the Kubernetes pipeline that ships them.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/work/skilldeck">See my work on SkillDeck</a>
+        <a class="btn" href="/projects">Projects</a>
+        <a class="quiet" href={site.resume}>Download résumé ↓</a>
+      </div>
+    </div>
+    <dl class="brief" aria-label="At a glance">
+      <div>
+        <dt class="label">Now</dt>
+        <dd>Full stack developer at Kandra Digitals, leading a small team</dd>
+      </div>
+      <div>
+        <dt class="label">Building</dt>
+        <dd>SkillDeck, a multi-tenant SaaS platform for businesses</dd>
+      </div>
+      <div>
+        <dt class="label">Working with</dt>
+        <dd>Node.js, React, Next.js, PostgreSQL, MongoDB, Docker and Kubernetes</dd>
+      </div>
+      <div>
+        <dt class="label">Open to</dt>
+        <dd>Full stack and backend roles</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="wrap section dossier" id="work">
+    <p class="label"><b>01</b> — Work</p>
+    <div class="stack">
+      <p class="mono">Kandra Digitals · October 2022 – Present</p>
+      <h2>SkillDeck, a multi-tenant SaaS platform</h2>
+      <div class="prose">
+        <p>
+          SkillDeck gives a business its website, customer records, courses, billing and support in one system. Each
+          customer is a tenant with its own isolated data. I work across all three layers: the React and Next.js
+          applications, the Node.js services behind them, and the Docker, Kubernetes and CI/CD setup that deploys them.
+        </p>
+      </div>
+      <ul class="chips" aria-label="Platform modules">
+        {modules.map((m) => <li class="chip">{m}</li>)}
+      </ul>
+      <p><a class="quiet" href="/work/skilldeck">Read the case study →</a></p>
+    </div>
+  </section>
+
+  <section class="wrap section dossier" id="projects">
+    <p class="label"><b>02</b> — Projects</p>
+    <div>
+      <div class="rows">
+        {
+          projects.map((p, i) => (
+            <a class="row" href={`/projects/${p.slug}`}>
+              <span class="num">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{p.title}</h3>
+                <p>{p.tagline}</p>
+                <p class="mono">{p.stack.slice(0, 5).join(" · ")}</p>
+              </div>
+              <Thumb project={p} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>03</b> — Toolbox</p>
+    <div class="stack">
+      <h2>What I work with</h2>
+      <dl class="defs">
+        {
+          toolbox.map((t) => (
+            <>
+              <dt>{t.area}</dt>
+              <dd>{t.items}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>04</b> — Experience</p>
+    <div class="stack-lg">
+      {
+        experience.map((e) => (
+          <article class="stack job">
+            <p class="mono">{e.dates}</p>
+            <h3>
+              {e.role}, {e.company}
+            </h3>
+            <p class="muted prose">{e.summary}</p>
+            {e.href && (
+              <p>
+                <a class="quiet" href={e.href}>
+                  What I did there →
+                </a>
+              </p>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section contact" id="contact">
+    <p class="label"><b>05</b> — Contact</p>
+    <h2 class="big">Have a role or a project in mind?</h2>
+    <p class="lead">
+      I'm open to full stack and backend roles. Email is the fastest way to reach me.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href={`mailto:${site.email}`}>{site.email}</a>
+      <a class="btn" href={site.linkedin}>LinkedIn ↗</a>
+      <a class="btn" href={site.github}>GitHub ↗</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--s8);
+    align-items: end;
+    padding-block: var(--s8) var(--s9);
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 5.6vw, 4.5rem);
+    line-height: 1.05;
+    max-width: 17ch;
+    margin-top: var(--s5);
+  }
+  .hero .lead {
+    margin-top: var(--s6);
+  }
+  .hero .actions {
+    margin-top: var(--s7);
+  }
+  .brief {
+    border-top: 1px solid var(--line);
+  }
+  .brief div {
+    padding-block: var(--s4);
+    border-bottom: 1px solid var(--line);
+  }
+  .brief dd {
+    margin-top: var(--s1);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .job > * + * {
+    margin-top: var(--s3);
+  }
+
+
+  .contact .big {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    max-width: 14ch;
+    margin-top: var(--s5);
+  }
+  .contact .lead {
+    margin-top: var(--s5);
+  }
+  .contact .actions {
+    margin-top: var(--s6);
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--s7);
+      padding-block: var(--s7) var(--s8);
+    }
+  }
+</style>

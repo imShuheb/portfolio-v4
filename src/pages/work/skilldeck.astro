@@ -1,0 +1,243 @@
+---
+import Base from "../../layouts/Base.astro";
+
+const layers = [
+  {
+    name: "Applications",
+    note: "Web applications",
+    items: ["React", "Next.js", "TypeScript", "Redux Toolkit", "React Query", "Tailwind CSS"],
+  },
+  {
+    name: "Access",
+    note: "Every request",
+    items: ["JWT authentication", "Role-based access control", "Tenant-level data isolation"],
+  },
+  {
+    name: "Services",
+    note: "Microservices",
+    items: ["CMS", "CRM", "LMS", "Billing", "Payments", "Ticketing", "Notifications", "Scheduling"],
+  },
+  {
+    name: "Data & messaging",
+    note: "Storage, cache, queues",
+    items: ["PostgreSQL", "MongoDB", "Redis", "RabbitMQ"],
+  },
+  {
+    name: "Delivery",
+    note: "Build, deploy, observe",
+    items: ["Docker", "Kubernetes", "Helm", "AWS", "GitHub Actions", "Jenkins", "OpenTelemetry"],
+  },
+];
+
+const areas = [
+  {
+    title: "Frontend engineering",
+    points: [
+      "Develop and maintain web applications in React, Next.js, JavaScript and TypeScript.",
+      "Build reusable UI components and frontend modules shared across several applications.",
+      "Build responsive, data-driven interfaces with Redux Toolkit, React Query and Tailwind CSS.",
+      "Improve performance through code splitting, lazy loading and caching.",
+    ],
+  },
+  {
+    title: "Backend engineering",
+    points: [
+      "Design and build REST APIs and services with Node.js, NestJS, Express and Fastify.",
+      "Work with PostgreSQL, MongoDB and Redis for storage, querying and caching.",
+      "Implement service-to-service communication and asynchronous workflows with RabbitMQ.",
+      "Build authentication, role-based access control and tenant-level data isolation.",
+    ],
+  },
+  {
+    title: "Cloud and DevOps",
+    points: [
+      "Containerise applications with Docker and deploy them on Kubernetes with Helm.",
+      "Work with AWS infrastructure and deployment environments.",
+      "Build and maintain CI/CD pipelines with GitHub Actions and Jenkins.",
+      "Investigate production issues with logs and distributed tracing.",
+    ],
+  },
+  {
+    title: "Architecture and collaboration",
+    points: [
+      "Contribute to the architecture of the multi-tenant ecosystem.",
+      "Deliver complete features across frontend, backend and infrastructure.",
+      "Lead and mentor a small team through code reviews, estimation and technical guidance.",
+      "Work with product stakeholders to turn requirements into shipped features.",
+    ],
+  },
+];
+
+const contributions = [
+  "Contributed to modules across the platform, including CMS, CRM, LMS, billing and ticketing.",
+  "Helped build and maintain the platform's backend services and frontend applications.",
+  "Improved page load performance with code splitting, lazy loading and caching.",
+  "Contributed to CI/CD improvements that reduced release time.",
+  "Worked on platform security: JWT authentication, RBAC and tenant data isolation.",
+];
+---
+
+<Base
+  title="SkillDeck case study"
+  description="How I work on SkillDeck at Kandra Digitals, a multi-tenant SaaS platform, across frontend, backend and DevOps."
+>
+  <section class="wrap head">
+    <p class="label">Case study · Kandra Digitals · October 2022 – Present</p>
+    <h1>SkillDeck</h1>
+    <p class="lead">
+      A multi-tenant SaaS platform that runs a business's website, customers, courses, billing and support in one
+      ecosystem. I have worked on it as a full stack developer since 2022.
+    </p>
+    <dl class="meta">
+      <div><dt class="label">Role</dt><dd>Full Stack Developer</dd></div>
+      <div><dt class="label">Where</dt><dd>Bengaluru, India</dd></div>
+      <div><dt class="label">Scope</dt><dd>Frontend, backend, cloud and DevOps</dd></div>
+    </dl>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>01</b> — The platform</p>
+    <div class="stack">
+      <h2>One platform, many businesses</h2>
+      <div class="prose">
+        <p>
+          SkillDeck is built for businesses that would otherwise stitch together a website builder, a CRM, a learning
+          system, a billing tool and a help desk. Each customer is a tenant: they share the same services, and their
+          data stays separate.
+        </p>
+        <p>
+          It is built as a set of microservices behind several frontend applications. Modules cover CMS, CRM, LMS,
+          billing, payments, ticketing, notifications and scheduling.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>02</b> — Architecture</p>
+    <div class="stack">
+      <h2>How it fits together</h2>
+      <p class="muted prose">A simplified view of the layers I work in, top to bottom.</p>
+      <ol class="diagram" aria-label="Platform layers">
+        {
+          layers.map((l) => (
+            <li>
+              <div class="layer-name">
+                <strong>{l.name}</strong>
+                <span>{l.note}</span>
+              </div>
+              <ul class="chips">
+                {l.items.map((i) => <li class="chip">{i}</li>)}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>03</b> — What I work on</p>
+    <div class="areas">
+      {
+        areas.map((a) => (
+          <article class="stack">
+            <h3>{a.title}</h3>
+            <ul class="ticks">
+              {a.points.map((p) => <li>{p}</li>)}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>04</b> — Key contributions</p>
+    <div class="stack">
+      <h2>What I have contributed</h2>
+      <ul class="ticks">
+        {contributions.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap section next">
+    <a class="quiet" href="/projects">Next: projects I built outside work →</a>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: var(--s8);
+  }
+  .head h1 {
+    margin-top: var(--s5);
+  }
+  .head .lead {
+    margin-top: var(--s5);
+  }
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s5);
+    margin-top: var(--s7);
+    padding-top: var(--s5);
+    border-top: 1px solid var(--line);
+  }
+  .meta dd {
+    margin-top: var(--s1);
+  }
+
+
+  .diagram {
+    border: 1px solid var(--line);
+    border-radius: var(--r2);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .diagram > li {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: var(--s5);
+    align-items: center;
+    padding: var(--s5);
+  }
+  .diagram > li + li {
+    border-top: 1px solid var(--line);
+  }
+  .layer-name strong {
+    display: block;
+    font-weight: 500;
+  }
+  .layer-name span {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .areas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s7) var(--s7);
+  }
+  .areas .ticks li {
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  .next {
+    padding-block: var(--s7);
+  }
+
+  @media (max-width: 800px) {
+    .meta,
+    .areas {
+      grid-template-columns: 1fr;
+    }
+    .diagram > li {
+      grid-template-columns: 1fr;
+      gap: var(--s3);
+    }
+  }
+</style>

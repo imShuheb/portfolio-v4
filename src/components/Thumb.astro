@@ -1,0 +1,80 @@
+---
+// The visual for a project row: a screenshot, a row of phone screens,
+// or a small flow diagram when the project has no screenshot.
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project: p } = Astro.props;
+const first = p.images?.[0];
+---
+
+{
+  first && !first.tall ? (
+    <div class="thumb">
+      <img src={first.src} alt="" loading="lazy" />
+    </div>
+  ) : first ? (
+    <div class="thumb phones" aria-hidden="true">
+      {p.images!.slice(0, 3).map((img) => (
+        <img src={img.src} alt="" loading="lazy" />
+      ))}
+    </div>
+  ) : (
+    <div class="thumb flow" aria-hidden="true">
+      {(p.flow ?? [p.title]).map((step, i) => (
+        <>
+          {i > 0 && <i>→</i>}
+          <span>{step}</span>
+        </>
+      ))}
+    </div>
+  )
+}
+
+<style>
+  .phones {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 12px 0;
+    background: var(--tint);
+  }
+  .phones img {
+    width: 30%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 4px;
+    padding: 14px;
+    background: var(--tint);
+  }
+  .flow span {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1;
+    padding: 6px 7px;
+    border: 1px solid var(--line);
+    border-radius: var(--r1);
+    background: var(--surface);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .flow i {
+    font-style: normal;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+</style>

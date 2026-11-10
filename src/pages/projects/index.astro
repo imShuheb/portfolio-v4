@@ -1,0 +1,54 @@
+---
+import Thumb from "../../components/Thumb.astro";
+import Base from "../../layouts/Base.astro";
+import { projects } from "../../data/projects";
+---
+
+<Base
+  title="Projects"
+  description="Products, client work and open source I have built, each with a short case study."
+>
+  <section class="wrap head">
+    <p class="label">Projects</p>
+    <h1>Things I've built.</h1>
+    <p class="lead">
+      Products, client work and open source. Each one has a short case study: the problem, what it does and how
+      it's built.
+    </p>
+  </section>
+
+  <section class="wrap list">
+    <div class="rows">
+      {
+        projects.map((p, i) => (
+          <a class="row" href={`/projects/${p.slug}`}>
+            <span class="num">{String(i + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{p.title}</h3>
+              <p>{p.tagline}</p>
+              <p class="mono">
+                {p.kind} · {p.year} · {p.stack.slice(0, 4).join(" · ")}
+              </p>
+            </div>
+            <Thumb project={p} />
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: var(--s8);
+  }
+  .head h1 {
+    margin-top: var(--s5);
+  }
+  .head .lead {
+    margin-top: var(--s5);
+  }
+  .list {
+    padding-bottom: var(--s9);
+  }
+</style>

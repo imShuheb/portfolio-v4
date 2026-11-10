@@ -1,0 +1,101 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, experience, toolbox } from "../data/site";
+---
+
+<Base title="About" description="About Mohammed Shuheb, a full stack developer in Bengaluru, India.">
+  <section class="wrap head">
+    <p class="label">About</p>
+    <h1>A full stack developer who likes owning the whole feature.</h1>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>01</b> — Who I am</p>
+    <div class="prose">
+      <p>
+        I'm Mohammed Shuheb, a full stack developer based in Bengaluru. I started writing code in school, and since
+        October 2022 I have worked at Kandra Digitals on SkillDeck, a multi-tenant SaaS platform.
+      </p>
+      <p>
+        My work runs across the stack. On a typical feature I build the interface in React or Next.js, the API and
+        service logic in Node.js, and the deployment that gets it to production on Kubernetes. I also lead a small
+        team, which means code reviews, estimation and helping people get unstuck.
+      </p>
+      <p>
+        Outside work I build products of my own: an API monitoring service, a self-hosted storage explorer and a URL
+        shortener. They are on the <a href="/projects">projects page</a>, along with client and freelance work.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>02</b> — Experience</p>
+    <div class="stack-lg">
+      {
+        experience.map((e) => (
+          <article class="job">
+            <p class="mono">
+              {e.dates} · {e.place}
+            </p>
+            <h3>
+              {e.role}, {e.company}
+            </h3>
+            <p class="muted prose">{e.summary}</p>
+            {e.href && (
+              <p>
+                <a class="quiet" href={e.href}>
+                  Read the case study →
+                </a>
+              </p>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>03</b> — Toolbox</p>
+    <dl class="defs">
+      {
+        toolbox.map((t) => (
+          <>
+            <dt>{t.area}</dt>
+            <dd>{t.items}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="wrap section dossier">
+    <p class="label"><b>04</b> — Get in touch</p>
+    <div class="stack">
+      <p class="prose">
+        I'm open to full stack and backend roles. The quickest way to reach me is
+        <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href={site.resume}>Download résumé ↓</a>
+        <a class="btn" href={site.linkedin}>LinkedIn ↗</a>
+        <a class="btn" href={site.github}>GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: var(--s8);
+  }
+  .head h1 {
+    margin-top: var(--s5);
+    max-width: 18ch;
+  }
+  .job > * + * {
+    margin-top: var(--s3);
+  }
+  .prose a {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,202 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+
+const nav = [
+  { label: "Work", href: "/work/skilldeck", match: "/work" },
+  { label: "Projects", href: "/projects", match: "/projects" },
+  { label: "About", href: "/about", match: "/about" },
+  { label: "Contact", href: "/#contact", match: "#" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1113" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      (function () {
+        var saved = null;
+        try {
+          saved = localStorage.getItem("theme");
+        } catch (e) {}
+        var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="wrap site-header">
+      <a class="brand" href="/">{site.name}</a>
+      <nav aria-label="Main">
+        <ul>
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href} aria-current={path.startsWith(item.match) ? "page" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <button class="theme" type="button" id="theme-toggle" aria-label="Switch colour theme">
+              <span aria-hidden="true">◐</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="wrap site-footer">
+      <p>© {new Date().getFullYear()} {site.name}</p>
+      <ul>
+        <li><a href={site.github}>GitHub</a></li>
+        <li><a href={site.linkedin}>LinkedIn</a></li>
+        <li><a href={`mailto:${site.email}`}>Email</a></li>
+        <li class="prev">
+          Earlier versions:
+          {site.previous.map((v) => <a href={v.href}>{v.label}</a>)}
+        </li>
+      </ul>
+    </footer>
+
+    <script is:inline>
+      document.getElementById("theme-toggle").addEventListener("click", function () {
+        var root = document.documentElement;
+        var next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch (e) {}
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: -999px;
+    top: 8px;
+    background: var(--surface);
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--r1);
+    z-index: 10;
+  }
+  .skip:focus {
+    left: 8px;
+  }
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s5);
+    padding-block: var(--s5);
+  }
+  .brand {
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .brand:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--s5);
+  }
+  nav a {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    padding-block: var(--s2);
+  }
+  nav a:hover,
+  nav a[aria-current="page"] {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .theme {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 150ms;
+  }
+  .theme:hover {
+    background: var(--tint);
+  }
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s4) var(--s6);
+    padding-block: var(--s6) var(--s7);
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .site-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s2) var(--s5);
+  }
+  .site-footer a {
+    color: var(--muted);
+  }
+  .site-footer a:hover {
+    color: var(--ink);
+  }
+  .prev a {
+    margin-left: var(--s2);
+  }
+  @media (max-width: 560px) {
+    .site-header {
+      flex-wrap: wrap;
+      row-gap: var(--s2);
+    }
+    nav ul {
+      gap: var(--s4);
+    }
+    nav a {
+      font-size: 0.875rem;
+    }
+  }
+</style>
